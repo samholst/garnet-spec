@@ -12,7 +12,6 @@ module GarnetSpec
       @chromedriver = start_chromedriver
       sleep 0.5.seconds
       @selenium_server = start_server
-      pp @selenium_server
       @session = start_session
     end
 
