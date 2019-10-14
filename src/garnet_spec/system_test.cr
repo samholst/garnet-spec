@@ -10,7 +10,7 @@ module GarnetSpec
       @@server.clear
     end
 
-    at_exit do
+    Spec.after_suite do
       @@server.stop
     end
 
@@ -52,18 +52,18 @@ module GarnetSpec
     end
 
     def self.scenario(description = "assert", file = __FILE__, line = __LINE__, end_line = __END_LINE__, &block)
-      return unless Spec.matches?(description, file, line, end_line)
+      return unless pending(description, file, line, end_line)
       Spec.formatters.each(&.before_example(description))
-      start = Time.now
+      start = Time.local
       begin
         Spec.run_before_each_hooks
         block.call
-        Spec::RootContext.report(:success, description, file, line, Time.now - start)
+        Spec::RootContext.new.report(:success, description, file, line, Time.local - start)
       rescue ex : Spec::AssertionFailed
-        Spec::RootContext.report(:fail, description, file, line, Time.now - start, ex)
+        Spec::RootContext.new.report(:fail, description, file, line, Time.local - start, ex)
         Spec.abort! if Spec.fail_fast?
       rescue ex
-        Spec::RootContext.report(:error, description, file, line, Time.now - start, ex)
+        Spec::RootContext.new.report(:error, description, file, line, Time.local - start, ex)
         Spec.abort! if Spec.fail_fast?
       ensure
         Spec.run_after_each_hooks
