@@ -10,7 +10,7 @@ module GarnetSpec
       @@server.clear
     end
 
-    at_exit do
+    Spec.after_suite do
       @@server.stop
     end
 
