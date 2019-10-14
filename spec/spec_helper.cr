@@ -10,7 +10,10 @@ end
 
 module GarnetSpec
   HANDLER = FakeHandler.new
-  PATH = "/usr/bin/chromedriver"
+  #mac path
+  PATH = "/usr/local/bin/chromedriver"
+  #linux path
+  #PATH = "/usr/bin/chromedriver"
 
   class Server
     CAPABILITIES = {
